@@ -10,7 +10,7 @@ const server = http.createServer((req, res)=>{
     //Respondemos
     res.write('Hola');
     //Terminar conexion
-    //res.end();
+    res.end();
 });
 
 //3. Pongo a trabajar al servidor
