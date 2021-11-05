@@ -25,6 +25,22 @@ const server = http.createServer((req, res)=>{
 
         // Cerrando la conexion
         res.end();
+    }else if(url === '/author'){
+                // 1. Estableciendo el tipo de retorno como html
+                res.setHeader('Content-Type','text/html');
+                let urlImage = 'https://pbs.twimg.com/profile_images/1073208648355209217/NC_kTVjb_400x400.jpg';
+                // 2. Escribiendo la respuesta 
+                res.write('<html>');
+                res.write('<head><title>My app</title></head>');
+                res.write('<body>');
+                res.write('<h1>Author</h1>');
+                res.write('<p>Ivan Rivalcoba Rivas - Web Developer</p>');
+                res.write(`<img width="300px" src="${urlImage}" alt="Foto Ian Rivalcoba">`);
+                res.write('</body>');
+                res.write('</html>');
+        
+                // Cerrando la conexion
+                res.end();
     }else{
         // Recurso no encontrado
         console.log(`❌ Recurso solicitado no encontrado ❌: ${url}`);
