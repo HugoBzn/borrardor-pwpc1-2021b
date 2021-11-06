@@ -63,6 +63,6 @@ const server = http.createServer((req, res)=>{
 // Le paso un callback que se escribira en la consola
 // cuando el servidor este ecuchando
 //192.168.0.15:3000
-server.listen(3000, '0.0.0.0', () => {
+server.listen(3000, '192.168.0.15', () => {
     console.log("🕵️‍♀️ Servidor escuchando en http://192.168.0.15:3000");
 });
