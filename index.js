@@ -18,14 +18,59 @@ const server = http.createServer((req, res)=>{
         // 1. Estableciendo el tipo de retorno como html
         res.setHeader('Content-Type','text/html');
         // 2. Escribiendo la respuesta 
-        res.write('<html>');
-        res.write('<head><title>My app</title></head>');
-        res.write('<body><h1>Hello from my server 🤠</h1></body>');
-        res.write('</html>');
-
+        res.write(`
+        <html>
+            <head>
+                <title>Enter Message</title>
+            </head>
+            <body>
+            <h1>Send Message</h1>
+            <form action="/message" method="POST">
+                <input type="text" name="message">
+                <button type="submit">send</button>
+            </form>
+            </body>
+        </html>
+        `);
         // Cerrando la conexion
         res.end();
-    }else if(url === '/author'){
+
+    }else if(url === '/message' && method === 'POST') {
+        //1. Se crea una variable para guardar los datos de entrada
+        let body = [];
+        //2. Registrar un manejador para la entrada de los datos
+        req.on("data", (chunk)=>{
+            //2.1 Registrando los trozos de datos que llega al backend
+            console.log(chunk);
+            //2.2 Acumula los datos de entrada
+            body.push(chunk);
+            //2.3 Proteccion en caso de recepcion masiva de datos
+            if (body > 1e6) req.socket.destroy();
+        });
+        //3. Registrando un manejador de fin de recepcion de datos
+        req.on('end', ()=>{
+            const parseBody = Buffer.concat(body).toString();
+            const message = parseBody.split('=')[1];
+             // 1. Estableciendo el tipo de retorno
+            // como HTML
+            res.setHeader("Content-Type", "text/html");
+            res.write(`
+            <html>
+            <head>
+                <title>Received Message</title>
+            </head>
+            <body>
+                <h1>Received Message</h1>
+                <p>Thank U!</p>
+                <p>The message we received was this ${message}!</p>
+            </body>
+        </html>
+            `);
+            //Finalizo la conexion
+            return res.end();
+        });
+
+    } else if(url === '/author'){
                 // 1. Estableciendo el tipo de retorno como html
                 res.setHeader('Content-Type','text/html');
                 let urlImage = 'https://pbs.twimg.com/profile_images/1073208648355209217/NC_kTVjb_400x400.jpg';
@@ -63,6 +108,6 @@ const server = http.createServer((req, res)=>{
 // Le paso un callback que se escribira en la consola
 // cuando el servidor este ecuchando
 //192.168.0.15:3000
-server.listen(3000, '192.168.0.15', () => {
-    console.log("🕵️‍♀️ Servidor escuchando en http://192.168.0.15:3000");
+server.listen(3000, '0.0.0.0', () => {
+    console.log("🕵️‍♀️ Servidor escuchando en http://0.0.0.0:3000");
 });
