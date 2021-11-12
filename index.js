@@ -1,6 +1,7 @@
 //1. Importa el modulo http
 import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
 import http from 'http'
+import fs from "fs";
 
 //2. Crea el servidor
 //Callback (cb) es una funcion que se ejeutará ante cualquier peticion de un recusro
@@ -51,21 +52,12 @@ const server = http.createServer((req, res)=>{
         req.on('end', ()=>{
             const parseBody = Buffer.concat(body).toString();
             const message = parseBody.split('=')[1];
-             // 1. Estableciendo el tipo de retorno
-            // como HTML
-            res.setHeader("Content-Type", "text/html");
-            res.write(`
-            <html>
-            <head>
-                <title>Received Message</title>
-            </head>
-            <body>
-                <h1>Received Message</h1>
-                <p>Thank U!</p>
-                <p>The message we received was this ${message}!</p>
-            </body>
-        </html>
-            `);
+            // Guardando el mensaje en un archivo
+            fs.writeFileSync('message.txt', message);
+            // Establecer el status code de redireccionamiento
+            res.statusCode = 302;
+            // Establecemos ruta de redireccionamiento
+            res.setHeader('Location', '/');
             //Finalizo la conexion
             return res.end();
         });
