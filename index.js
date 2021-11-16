@@ -48,20 +48,35 @@ const server = http.createServer((req, res)=>{
             //2.3 Proteccion en caso de recepcion masiva de datos
             if (body > 1e6) req.socket.destroy();
         });
+        // Ejecuta Operacion(ARGS1,ARGS2,ARG3,cb)
+        // Suma2Numeros(1,2,(res) => {console.log(res)})
+        /*
+        1. let res = Suma2Numeros(1,2);
+        2. Console.log(res); //undefined
+        */
         //3. Registrando un manejador de fin de recepcion de datos
         req.on('end', ()=>{
             const parseBody = Buffer.concat(body).toString();
             const message = parseBody.split('=')[1];
             // Guardando el mensaje en un archivo
-            fs.writeFileSync('message.txt', message);
-            // Establecer el status code de redireccionamiento
-            res.statusCode = 302;
-            // Establecemos ruta de redireccionamiento
-            res.setHeader('Location', '/');
-            //Finalizo la conexion
-            return res.end();
+            fs.writeFile('message.txt', message, (err)=>{
+                //Verificar que hubo eror
+                if (err) {
+                    console.log("> No se pudo grabar el archivo");
+                    res.statusCode = 500; // Internal server error
+                    res.setHeader("ERROR WHEN LOADING FILE");
+                    return res.end();
+                }
+                // En caso de no haber error
+                fs.writeFileSync('message.txt', message);
+                // Establecer el status code de redireccionamiento
+                res.statusCode = 302;
+                // Establecemos ruta de redireccionamiento
+                res.setHeader('Location', '/');
+                //Finalizo la conexion
+                return res.end();
+            });
         });
-
     } else if(url === '/author'){
                 // 1. Estableciendo el tipo de retorno como html
                 res.setHeader('Content-Type','text/html');
