@@ -4,11 +4,15 @@ import http from 'http'
 import fs from "fs";
 // 2. Importando el module routes
 import routes from "./routes.js"
+// 3. Importando Express
+import Express from 'express'
 
-//2. Crea el servidor
-//Callback (cb) es una funcion que se ejeutará ante cualquier peticion de un recusro
-//En nuestro Server (request, response)
-const server = http.createServer(routes.requestHandler);
+// Crear una instancia de Express
+const app = Express(); // (req, res, next) => {} event handler
+
+//2. Crea el servidor tomando como
+// Manejador de peticiones a Express
+const server = http.createServer(app);
 
 //3. Pongo a trabajar al servidor
 // Le paso un callback que se escribira en la consola
