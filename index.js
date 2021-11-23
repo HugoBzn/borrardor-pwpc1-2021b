@@ -8,16 +8,37 @@ import routes from "./routes.js"
 import Express from 'express'
 
 // Crear una instancia de Express
-const app = Express(); // (req, res, next) => {} event handler
+const app = Express(); // (req, res, next) => {} request handler
 
-//2. Crea el servidor tomando como
-// Manejador de peticiones a Express
-const server = http.createServer(app);
+// Registrando el primer middleware
+app.use((req,res,next)=>{
+    // Registrar un mensaje en el log
+    console.log("📞 Esoty en el middleware 1");
+    // Dar la instruccion de pasar al siguiente middleware
+    next();
+});
 
-//3. Pongo a trabajar al servidor
-// Le paso un callback que se escribira en la consola
-// cuando el servidor este ecuchando
-//192.168.0.15:3000
-server.listen(3000, '0.0.0.0', () => {
+// Registrando el segundo middleware
+app.use((req,res,next)=>{
+    // Registrar un mensaje en el log
+    console.log("📞 Esoty en el middleware 2");
+    // Dar la instruccion de pasar al siguiente middleware
+    next();
+});
+
+// Registrando tercer middleware
+app.use((_,res)=>{
+    console.log("📞 Esoty en el middleware 2");
+    console.log("📞 Emitiendo respuesta a cliente");
+    res.send("<h1>Mi respuesta</h1>\n 🙋‍♂️ Hola");
+});
+
+/**
+ * Codigos de Emojies
+ * Ref: https://www.w3schools.com/charsets/ref_emoji.asp
+ */
+
+// Poniendo a escuchar la app de Express
+app.listen(3000, '0.0.0.0',() => {
     console.log("🕵️‍♀️ Servidor escuchando en http://0.0.0.0:3000");
 });
