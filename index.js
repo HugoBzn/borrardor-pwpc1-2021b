@@ -6,31 +6,18 @@ import fs from "fs";
 import routes from "./routes.js"
 // 3. Importando Express
 import Express from 'express'
+import { send } from 'process';
 
 // Crear una instancia de Express
 const app = Express(); // (req, res, next) => {} request handler
 
-// Registrando el primer middleware
-app.use((req,res,next)=>{
-    // Registrar un mensaje en el log
-    console.log("📞 Esoty en el middleware 1");
-    // Dar la instruccion de pasar al siguiente middleware
-    next();
+app.use('/about',(_,res)=>{
+    res.send("<h1>💡 Acerca de...</h1>\n 🙋‍♂️ Sitio inicial hecho con NodeJs")
 });
 
-// Registrando el segundo middleware
-app.use((req,res,next)=>{
-    // Registrar un mensaje en el log
-    console.log("📞 Esoty en el middleware 2");
-    // Dar la instruccion de pasar al siguiente middleware
-    next();
-});
-
-// Registrando tercer middleware
-app.use((_,res)=>{
-    console.log("📞 Esoty en el middleware 2");
-    console.log("📞 Emitiendo respuesta a cliente");
-    res.send("<h1>Mi respuesta</h1>\n 🙋‍♂️ Hola");
+app.use('/',(_,res)=>{
+    console.log('📞 Emitiendo respuesta a cliente: "/"');
+    res.send("<h1>Mi APP</h1>\n 🙋‍♂️ Bienvenido a este sitio");
 });
 
 /**
