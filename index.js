@@ -11,11 +11,14 @@ import { send } from 'process';
 // Crear una instancia de Express
 const app = Express(); // (req, res, next) => {} request handler
 
+// Se debe colocar primero ya que el orden de registro
+// Determina el orden de verificacion
 app.use('/about',(_,res)=>{
     res.send("<h1>💡 Acerca de...</h1>\n 🙋‍♂️ Sitio inicial hecho con NodeJs")
 });
 
-app.use('/',(_,res)=>{
+// La ruta raiz entra en todo tipo de peticion
+app.use(['/','/home'],(_,res)=>{
     console.log('📞 Emitiendo respuesta a cliente: "/"');
     res.send("<h1>Mi APP</h1>\n 🙋‍♂️ Bienvenido a este sitio");
 });
