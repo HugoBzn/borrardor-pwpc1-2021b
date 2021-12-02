@@ -1,11 +1,11 @@
 //1. Importa el modulo http
-import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
-import http from 'http'
+// import { SSL_OP_CISCO_ANYCONNECT } from 'constants';
+// import http from 'http'
 import fs from "fs";
 // 2. Importando el module routes
 import routes from "./routes.js"
 // 3. Importando Express
-import Express, { application } from 'express'
+import Express from 'express'
 
 console.log(`Variable de entorno: ${process.env.NODE_ENV}`);
 
@@ -40,7 +40,7 @@ app.use('/add-student-form', (_, res)=>{
 });
 
 // Ruta que procesa el formulario
-app.use('/add-student', (req, res) => {
+app.post('/add-student', (req, res) => {
     // Iterando sobre todo el objeto
     for(const prop in req.body){
         console.log(`🚩 ${prop}: ${req.body[prop]}`);
