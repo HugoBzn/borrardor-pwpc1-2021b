@@ -1,6 +1,9 @@
 //Importando Express
 import Express from 'express'
 
+//Importando el modulo Path de node para trabajar con rutas absolutas
+import path from 'path';
+
 //Importar los entutadores
 import adminRoute from './routes/admin.route.js'
 import homeRoute from './routes/home.route.js'
@@ -25,8 +28,9 @@ app.use('/admin',adminRoute);
 //Se agrega a la aplicacion la ruta home
 app.use(homeRoute);
 //404 error page
-app.use((req,res,next)=>{
-    res.status(404).send('<h1>🥺 Recurso no encontrado</h1>');
+app.use((_,res)=>{
+    const ERRProductfilePath = path.join(path.resolve(), "server","views","404.html");
+    res.status(404).sendFile(ERRProductfilePath);
 });
 /**
  * Codigos de Emojies
