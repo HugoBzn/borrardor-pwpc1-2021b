@@ -4,18 +4,21 @@ import { Router } from "express";
 //Importando el modulo Path de node para trabajar con rutas absolutas
 import path from 'path';
 
+//Importando helper
+import { ROOT_DIR } from "../helpers/path.helper.js";
+
 //2. Crear una instancia del enrutador
 const router = Router();
 
 //3. Registrar rutas a mi enrutador
 router.get('/about',(_,res)=>{
-    const AboufilePath = path.join(path.resolve(), "server","views","about.html");
+    const AboufilePath = path.join(ROOT_DIR, "server","views","about.html");
     res.sendFile(AboufilePath);
 });
 
 // La ruta raiz entra en todo tipo de peticion
 router.get(['/','/home'],(_,res)=>{
-    const filePath = path.join(path.resolve(), "server","views","shop.html");
+    const filePath = path.join(ROOT_DIR, "server","views","shop.html");
     res.sendFile(filePath);
 });
 

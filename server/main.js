@@ -4,6 +4,9 @@ import Express from 'express'
 //Importando el modulo Path de node para trabajar con rutas absolutas
 import path from 'path';
 
+//Importando helper
+import { ROOT_DIR } from "./helpers/path.helper.js";
+
 //Importar los entutadores
 import adminRoute from './routes/admin.route.js'
 import homeRoute from './routes/home.route.js'
@@ -29,7 +32,7 @@ app.use('/admin',adminRoute);
 app.use(homeRoute);
 //404 error page
 app.use((_,res)=>{
-    const ERRProductfilePath = path.join(path.resolve(), "server","views","404.html");
+    const ERRProductfilePath = path.join(ROOT_DIR, "server","views","404.html");
     res.status(404).sendFile(ERRProductfilePath);
 });
 /**
