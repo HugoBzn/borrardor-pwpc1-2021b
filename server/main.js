@@ -8,7 +8,7 @@ import path from 'path';
 import { ROOT_DIR } from "./helpers/path.helper.js";
 
 //Importar los entutadores
-import adminRoute from './routes/admin.route.js'
+import { router as adminRoute } from './routes/admin.route.js'
 import homeRoute from './routes/home.route.js'
 
 console.log(`Variable de entorno: ${process.env.NODE_ENV}`);
@@ -26,6 +26,10 @@ app.use((req,_,next)=>{
     next();
 });
 
+//Registrando el Middleware que maneja
+//el servicio de archivos estaticos
+app.use(Express.static(path.join(ROOT_DIR, 'public')));
+
 //Se agrega a la aplicacion la ruta admin
 app.use('/admin',adminRoute);
 //Se agrega a la aplicacion la ruta home
@@ -42,5 +46,5 @@ app.use((_,res)=>{
 
 // Poniendo a escuchar la app de Express
 app.listen(3000, '0.0.0.0',() => {
-    console.log("🕵️‍♀️ Servidor escuchando en http://0.0.0.0:3000");
+    console.log("🕵️‍♀️ Servidor escuchando en http://localhost:3000");
 });
