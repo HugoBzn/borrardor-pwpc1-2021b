@@ -17,8 +17,8 @@ export const router = Router();
 //Sirve el formulario para agregar productos
 //GET: /admin/add-product
 router.get('/add-product',(_,res) => {
-    const AddProductfilePath = path.join(ROOT_DIR, "server","views","add-product.html");
-    res.sendFile(AddProductfilePath);
+    console.log("📔 Sirviendo recurso: 'add-product.html'");
+    res.render("add-product");
 });
 //Procesa el formulario para agregar productos
 //GET: admin/add-product
